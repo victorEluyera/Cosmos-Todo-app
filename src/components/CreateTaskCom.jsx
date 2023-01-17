@@ -6,36 +6,10 @@ import {
   Select,
   Stack,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-// import "./Home.css";
+import React from "react";
 
-function CreateTaskCom() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [createTaskInputs, setCreateTaskInputs] = useState({
-    title: "",
-    description: "",
-    date: "",
-    importance: "",
-  });
-  const [createdTasks, setCreatedTasks] = useState(() => {
-    return JSON.parse(localStorage.getItem("allTasks")) || [];
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setCreateTaskInputs((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    createTaskInputs.status = false;
-    setCreatedTasks([...createdTasks, createTaskInputs]);
-  };
-
-  localStorage.setItem("allTasks", JSON.stringify(createdTasks));
-
+function CreateTaskCom({ handleChange, handleSubmit, createTaskInputs }) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -81,12 +55,7 @@ function CreateTaskCom() {
           </Select>
           <br />
           <br />
-          <Button
-            bg={"#bc544b"}
-            color={"white"}
-            type={"submit"}
-            onClick={onClose}
-          >
+          <Button bg={"#bc544b"} color={"white"} type={"submit"}>
             Add New Task
           </Button>
         </Stack>

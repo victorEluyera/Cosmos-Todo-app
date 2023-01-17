@@ -12,9 +12,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import "./SignUp.css";
 
 function SignUp() {
+  const isDesktop = useMediaQuery({ minWidth: 792 });
+  const isMobile = useMediaQuery({ maxWidth: 667 });
+
   const [signUpInput, setSignUpInput] = useState({
     username: "",
     email: "",
@@ -23,7 +27,7 @@ function SignUp() {
   });
   const [showAlert, setShowAlert] = useState("");
   const [registerUsers, setRegisterUsers] = useState(() => {
-    return JSON.parse(localStorage.getItem("john")) || [];
+    return JSON.parse(localStorage.getItem("registeredUsers")) || [];
   });
 
   const handleOnchange = (event) => {
@@ -48,15 +52,28 @@ function SignUp() {
       setRegisterUsers([...registerUsers, signUpInput]);
     }
   };
-  localStorage.setItem("john", JSON.stringify(registerUsers));
+  localStorage.setItem("registeredUsers", JSON.stringify(registerUsers));
 
   return (
     <>
-      <Box className="signUp">
+      <Box className={isDesktop ? "signUp" : ""}>
         <Center>
-          <Box w="80%" m="auto" bg="white" borderRadius="15px">
-            <Flex>
-              <Box w="50%" p="8" h={"auto"}>
+          <Box
+            w={isDesktop ? "80%" : "100%"}
+            m="auto"
+            bg="white"
+            borderRadius="15px"
+          >
+            <Flex
+              direction={isDesktop ? "row" : "column"}
+              justifyContent={isMobile && "space-between"}
+              h={isMobile && "100vh"}
+            >
+              <Box
+                w={isDesktop ? "50%" : "100%"}
+                p="8"
+                h={isDesktop ? "auto" : ""}
+              >
                 {showAlert === "existUsers" && (
                   <Alert status="error">
                     <AlertIcon />
@@ -119,17 +136,17 @@ function SignUp() {
                     />
                     <br />
                     <br />
-                    <Button type="submit" bg={"red"} color="white">
+                    <Button type="submit" bg={"#bc544b"} color="white">
                       Sign Up
                     </Button>
                   </Stack>
                 </form>
               </Box>
               <Box
-                w="50%"
-                bg={"red"}
+                w={isDesktop ? "50%" : "100%"}
+                bg={"#bc544b"}
                 borderRadius="15px"
-                h={"auto"}
+                h={isDesktop ? "auto" : "50vh"}
                 color="white"
                 textAlign={"start"}
                 py="12"
@@ -141,8 +158,8 @@ function SignUp() {
                   Register and create an account on Todo List. Write your tasks
                   anytime and anywhere
                 </Text>
-                <Text fontSize={"sm"}>
-                  Already have an account ? <span>Login</span>
+                <Text fontSize={"md"}>
+                  Already have an account ? <span color="red">Login</span>
                 </Text>
               </Box>
             </Flex>

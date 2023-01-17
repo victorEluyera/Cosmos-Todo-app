@@ -11,12 +11,17 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 function SignIn() {
+  const isDesktop = useMediaQuery({ minWidth: 792 });
+  const isMobile = useMediaQuery({ maxWidth: 667 });
+  const navigate = useNavigate();
   const [registeredUsers, setRegisteredUsers] = useState(() => {
-    return JSON.parse(localStorage.getItem("john")) || [];
+    return JSON.parse(localStorage.getItem("registeredUsers")) || [];
   });
   const [currentUser, setCurrentUser] = useState(() => {
     return JSON.parse(localStorage.getItem("currentUser")) || {};
@@ -48,20 +53,36 @@ function SignIn() {
       setAlert("invalid inputs");
     } else {
       setCurrentUser(existUsers);
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
   };
+
+  useEffect(() => {
+    if (Object.keys(currentUser).length !== 0) {
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      navigate("/home");
+      window.location.reload();
+    }
+  });
   return (
     <div>
-      <Box className="signUp">
+      <Box className={isDesktop ? "signUp" : ""}>
         <Center>
-          <Box w="100%" m="auto" bg="white" borderRadius="15px">
-            <Flex>
+          <Box
+            w={isDesktop ? "80%" : "100%"}
+            m="auto"
+            bg="white"
+            borderRadius="15px"
+          >
+            <Flex
+              direction={isDesktop ? "row" : "column"}
+              justifyContent={isMobile && "space-between"}
+              h={isMobile && "100vh"}
+            >
               <Box
-                w="50%"
-                bg={"red"}
+                w={isDesktop ? "50%" : "100%"}
+                bg={"#bc544b"}
                 borderRadius="15px"
-                h={"auto"}
+                h={isDesktop ? "auto" : "50vh"}
                 color="white"
                 textAlign={"start"}
                 py="12"
@@ -76,7 +97,11 @@ function SignIn() {
                   Do not have an account ?<span>Sign up</span>
                 </Text>
               </Box>
-              <Box w="50%" p="8" h={"auto"}>
+              <Box
+                w={isDesktop ? "50%" : "100%"}
+                p="8"
+                h={isDesktop ? "auto" : ""}
+              >
                 {alert === "invalid inputs" && (
                   <Alert status="error">
                     <AlertIcon />
@@ -110,7 +135,7 @@ function SignIn() {
 
                     <br />
                     <br />
-                    <Button type="submit" bg={"red"} color="white">
+                    <Button type="submit" bg={"#bc544b"} color="white">
                       Login
                     </Button>
                   </Stack>
