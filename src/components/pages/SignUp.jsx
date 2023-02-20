@@ -13,11 +13,17 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 function SignUp() {
   const isDesktop = useMediaQuery({ minWidth: 792 });
   const isMobile = useMediaQuery({ maxWidth: 667 });
+  const navigate = useNavigate();
+
+  const goToLogin = (e) => {
+    navigate("/");
+  };
 
   const [signUpInput, setSignUpInput] = useState({
     username: "",
@@ -53,7 +59,6 @@ function SignUp() {
     }
   };
   localStorage.setItem("registeredUsers", JSON.stringify(registerUsers));
-
   return (
     <>
       <Box className={isDesktop ? "signUp" : ""}>
@@ -159,7 +164,14 @@ function SignUp() {
                   anytime and anywhere
                 </Text>
                 <Text fontSize={"md"}>
-                  Already have an account ? <span color="red">Login</span>
+                  Already have an account ?{" "}
+                  <Text
+                    display={"inline"}
+                    fontWeight={"extrabold"}
+                    onClick={goToLogin}
+                  >
+                    Login
+                  </Text>
                 </Text>
               </Box>
             </Flex>

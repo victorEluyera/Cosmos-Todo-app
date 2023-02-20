@@ -32,7 +32,6 @@ function SignIn() {
   });
 
   const [alert, setAlert] = useState("");
-
   const handleOnchange = (event) => {
     const { value, name } = event.target;
     setSignInInput((prev) => ({ ...prev, [name]: value }));
@@ -94,7 +93,15 @@ function SignIn() {
                   Log in and start creating your next task
                 </Text>
                 <Text fontSize={"sm"}>
-                  Do not have an account ?<span>Sign up</span>
+                  Do not have an account ?
+                  <Text
+                    display={"inline"}
+                    fontWeight={"extrabold"}
+                    onClick={() => navigate("/signUp")}
+                  >
+                    {" "}
+                    Sign up
+                  </Text>
                 </Text>
               </Box>
               <Box
