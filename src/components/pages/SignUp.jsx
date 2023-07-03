@@ -63,6 +63,7 @@ function SignUp() {
     } else if (signUpInput.password !== signUpInput.confirmPassword) {
       setShowAlert("passwords not correct");
     } else {
+      setShowAlert("you have signup go back to login page to login");
       setRegisterUsers([...registerUsers, signUpInput]);
       setSignUpInput({
         username: "",
@@ -70,10 +71,11 @@ function SignUp() {
         password: "",
         confirmPassword: "",
       });
-      navigate("/");
     }
   };
+
   localStorage.setItem("registeredUsers", JSON.stringify(registerUsers));
+
   return (
     <>
       <Box className={isDesktop ? "signUp" : ""}>
