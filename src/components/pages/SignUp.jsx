@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -24,6 +26,12 @@ function SignUp() {
   const goToLogin = (e) => {
     navigate("/");
   };
+
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
+
+  const [show1, setShow1] = React.useState(false);
+  const handleClick1 = () => setShow1(!show1);
 
   const [signUpInput, setSignUpInput] = useState({
     username: "",
@@ -56,6 +64,13 @@ function SignUp() {
       setShowAlert("passwords not correct");
     } else {
       setRegisterUsers([...registerUsers, signUpInput]);
+      setSignUpInput({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/");
     }
   };
   localStorage.setItem("registeredUsers", JSON.stringify(registerUsers));
@@ -123,22 +138,36 @@ function SignUp() {
                       onChange={handleOnchange}
                       isRequired
                     />
-                    <Input
-                      placeholder="Password"
-                      name="password"
-                      type={"password"}
-                      value={setSignUpInput.password}
-                      onChange={handleOnchange}
-                      isRequired
-                    />
-                    <Input
-                      placeholder="Confirm Password"
-                      name="confirmPassword"
-                      type={"password"}
-                      value={setSignUpInput.confirmPassword}
-                      onChange={handleOnchange}
-                      isRequired
-                    />
+                    <InputGroup>
+                      <Input
+                        placeholder="Password"
+                        name="password"
+                        type={show ? "text" : "password"}
+                        value={setSignUpInput.password}
+                        onChange={handleOnchange}
+                        isRequired
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick}>
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                    <InputGroup>
+                      <Input
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        type={show1 ? "text" : "password"}
+                        value={setSignUpInput.confirmPassword}
+                        onChange={handleOnchange}
+                        isRequired
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick1}>
+                          {show1 ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     <br />
                     <br />
                     <Button type="submit" bg={"#bc544b"} color="white">
@@ -169,6 +198,7 @@ function SignUp() {
                     display={"inline"}
                     fontWeight={"extrabold"}
                     onClick={goToLogin}
+                    style={{ cursor: "pointer" }}
                   >
                     Login
                   </Text>

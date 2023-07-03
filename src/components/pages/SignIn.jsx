@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -17,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 function SignIn() {
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
   const isDesktop = useMediaQuery({ minWidth: 792 });
   const isMobile = useMediaQuery({ maxWidth: 667 });
   const navigate = useNavigate();
@@ -98,8 +102,8 @@ function SignIn() {
                     display={"inline"}
                     fontWeight={"extrabold"}
                     onClick={() => navigate("/signUp")}
+                    style={{ cursor: "pointer" }}
                   >
-                    {" "}
                     Sign up
                   </Text>
                 </Text>
@@ -132,14 +136,21 @@ function SignIn() {
                       onChange={handleOnchange}
                       isRequired
                     />
-                    <Input
-                      placeholder="Password"
-                      name="password"
-                      value={setSignInInput.password}
-                      onChange={handleOnchange}
-                      isRequired
-                    />
-
+                    <InputGroup>
+                      <Input
+                        placeholder="Password"
+                        type={show ? "text" : "password"}
+                        name="password"
+                        value={setSignInInput.password}
+                        onChange={handleOnchange}
+                        isRequired
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick}>
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     <br />
                     <br />
                     <Button type="submit" bg={"#bc544b"} color="white">
